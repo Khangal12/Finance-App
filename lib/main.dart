@@ -1,3 +1,7 @@
+import 'package:app/Screens/Addexpense.dart';
+import 'package:app/Screens/HomePage.dart';
+import 'package:app/Screens/Login.dart';
+import 'package:app/Screens/MainPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app/Screens/Home.dart';
@@ -24,6 +28,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => RegistrationPage(),
+        '/login': (context) => LoginScreen(),
+        '/home': (context) => Homepage(),
+        '/addexpense': (BuildContext context) => AddExpensePage()
       },
     );
   }

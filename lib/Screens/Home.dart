@@ -36,27 +36,30 @@ class HomePage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  // Start Button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(84, 19, 139, 123),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegistrationPage()),
-                      );
-                    },
-                    child: Text(
-                      'Эхлэх',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegistrationPage()),
+                        );
+                      },
+                      child: Text(
+                        'Эхлэх',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
                   ),
@@ -71,7 +74,7 @@ class HomePage extends StatelessWidget {
                           // Add navigation logic for rights info
                         },
                         child: Text(
-                          'Харалцангийн Эрх Бай Юу?',
+                          'Харилцагчийн Эрх Бий Юу?',
                           style: TextStyle(color: Colors.black54),
                         ),
                       ),
