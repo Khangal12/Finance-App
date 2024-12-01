@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:app/services/transaction.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddExpensePage extends StatefulWidget {
   @override
@@ -13,6 +16,110 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool _validateForm() {
+      // Add your form validation logic here
+      return _amountController.text.isNotEmpty && _selectedDate != null;
+    }
+
+    Future<void> _addOutcome() async {
+      if (_validateForm()) {
+        final user = FirebaseAuth.instance.currentUser;
+        double amount = double.tryParse(_amountController.text) ?? 0.0;
+        if (user != null) {
+          String userId = user.uid;
+
+          // Create an instance of TransactionService
+          final TransactionService transactionService = TransactionService();
+
+          try {
+            Timestamp dateTimestamp = _selectedDate != null
+                ? Timestamp.fromDate(_selectedDate!)
+                : Timestamp
+                    .now(); // Default to current timestamp if no date selected
+            // Call addTransaction on the instancea
+            await transactionService.addOutcomeTransaction(
+              userId: userId,
+              amount: amount,
+              date: dateTimestamp,
+              type: "expenses",
+              status: "pending",
+              description: _selectedTransaction ?? 'Other',
+            );
+
+            // Show success message
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text('Outcome Added'),
+                content: Text('Your outcome has been added successfully.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          } catch (e) {
+            print("Error adding outcome: $e");
+            // Show a generic error message if something goes wrong
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text('Error'),
+                content: Text(
+                    'An error occurred while adding the outcome. Please try again later.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          }
+        } else {
+          // User is not authenticated
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text('Error'),
+              content: Text('Please login to add outcome.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      } else {
+        // If form validation fails
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Error'),
+            content: Text('Please fill in all fields correctly.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(200), // Increase the height here
@@ -169,7 +276,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     SizedBox(height: 10),
                     GestureDetector(
                       onTap: () {
-                        // Add your payment logic here
+                        _addOutcome();
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 15),

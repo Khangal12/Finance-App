@@ -1,6 +1,7 @@
 import 'package:app/Screens/Addexpense.dart';
 import 'package:app/Screens/CardDetails.dart';
 import 'package:app/Screens/Dashboard.dart';
+import 'package:app/Screens/Detail.dart';
 import 'package:app/Screens/MainPage.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _BottomState extends State<Bottom> {
     CardDetailsPage(),
     CardDetailsPage(),
     DashboardPage(),
-    AddExpensePage()
+    AddExpensePage(),
   ];
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:app/Screens/Addexpense.dart';
+import 'package:app/Screens/Detail.dart';
 import 'package:app/Screens/HomePage.dart';
 import 'package:app/Screens/Login.dart';
 import 'package:app/Screens/MainPage.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegistrationPage(),
         '/login': (context) => LoginScreen(),
         '/home': (context) => Homepage(),
-        '/addexpense': (BuildContext context) => AddExpensePage()
+        '/addexpense': (BuildContext context) => AddExpensePage(),
       },
     );
   }

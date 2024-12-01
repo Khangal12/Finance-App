@@ -8,7 +8,6 @@ class Mainpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    print(user);
 
     if (user == null) {
       return Scaffold(
@@ -90,6 +89,7 @@ class Mainpage extends StatelessWidget {
                   stream: FirebaseFirestore.instance
                       .collection('transactions')
                       .where('userId', isEqualTo: user.uid)
+                      .where('status', isEqualTo: 'success')
                       .orderBy('timestamp', descending: true)
                       .snapshots(),
                   builder: (context, transactionSnapshot) {
@@ -124,6 +124,7 @@ class Mainpage extends StatelessWidget {
                         (context, index) {
                           var transaction = transactions[index].data()
                               as Map<String, dynamic>;
+                          String description = transaction['description'] ?? '';
                           String type = transaction['type'] ?? '';
                           double amount = transaction['amount'] ?? 0.0;
                           Timestamp timestamp =
@@ -137,7 +138,7 @@ class Mainpage extends StatelessWidget {
                                   height: 40),
                             ),
                             title: Text(
-                              type,
+                              description,
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
